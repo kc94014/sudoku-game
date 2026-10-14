@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f6f7fb">
+<title>Sudoku Quest｜數獨闖關</title>
+<style>
+:root{--bg:#f6f7fb;--panel:#fff;--ink:#1d2939;--muted:#667085;--line:#d7deea;--strong:#6f809a;--blue:#dceaff;--blue2:#bcd7ff;--accent:#315fca;--green:#e0f5e9;--red:#ffe6e5;--shadow:0 12px 36px #20304a12}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#eef3ff 0,var(--bg) 440px);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;min-height:100vh}
+button,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:10px 13px;font-weight:650;transition:.15s}button:hover{border-color:#9aafd0;transform:translateY(-1px)}button:focus-visible,.cell:focus-visible{outline:3px solid #7da7ff;outline-offset:2px}button.primary{background:var(--accent);border-color:var(--accent);color:white}button.soft{background:#f0f5ff;border-color:#d9e5ff;color:#254b9e}button.danger{color:#b42318}.app{width:min(1120px,100%);margin:auto;padding:28px 20px 40px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px}.brand{display:flex;gap:12px;align-items:center}.logo{width:48px;height:48px;border-radius:15px;background:#315fca;color:white;display:grid;place-items:center;font-size:25px;box-shadow:0 8px 18px #315fca30}.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:800}.brand h1{font-size:24px;margin:2px 0 0;letter-spacing:-.04em}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.layout{display:grid;grid-template-columns:minmax(320px,610px) minmax(260px,1fr);gap:22px;align-items:start}.panel{background:var(--panel);border:1px solid #e5eaf2;border-radius:22px;box-shadow:var(--shadow);padding:20px}.board-panel{padding:20px}.game-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.game-head h2{margin:0;font-size:19px}.pill{background:#edf3ff;color:#315fca;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}.stat{padding:11px 12px;border:1px solid #e8edf5;background:#fafbfe;border-radius:13px}.stat span{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}.stat strong{font-size:18px;font-variant-numeric:tabular-nums}.board{display:grid;grid-template-columns:repeat(9,1fr);aspect-ratio:1;border:2px solid #566780;border-radius:7px;overflow:hidden;background:#fff;touch-action:manipulation}.cell{border:0;border-radius:0;padding:0;min-width:0;aspect-ratio:1;background:#fff;display:flex;align-items:center;justify-content:center;position:relative;font-size:clamp(16px,2.7vw,27px);font-weight:550;color:#315fca;transform:none!important;box-shadow:none}.cell:nth-child(3n){border-right:2px solid var(--strong)}.cell:nth-child(9n){border-right:0}.cell:nth-child(n+19):nth-child(-n+27),.cell:nth-child(n+46):nth-child(-n+54){border-bottom:2px solid var(--strong)}.cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line)}.cell.given{color:#202b3b;font-weight:800}.cell.selected{background:var(--blue2)!important;box-shadow:inset 0 0 0 2px #4e80df}.cell.related{background:#edf4ff}.cell.same{background:#dbe8ff}.cell.conflict{background:var(--red)!important;color:#b42318}.cell.wrong{color:#c2342b;background:#fff0ef}.cell .notes{position:absolute;inset:2px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);font-size:clamp(7px,1.2vw,11px);font-weight:500;color:#6c7d98;line-height:1;place-items:center}.cell .value{position:relative;z-index:1}.board-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin-top:12px}.side{display:grid;gap:16px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px;font-size:15px}.section-title small{font-size:11px;color:var(--muted);font-weight:500}.number-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.number-pad button{font-size:20px;padding:13px 8px;color:#315fca;background:#f8faff;border-color:#e0e9fa}.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.tools button{font-size:13px}.tools button.active{background:#e6efff;border-color:#94b6f8;color:#214eaa}.wide{width:100%;margin-top:9px}.progress{display:flex;gap:6px;margin:13px 0}.step{height:6px;flex:1;border-radius:99px;background:#e8edf5}.step.done{background:#315fca}.step.current{background:#8bb0ff}.progress-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}.message{min-height:22px;margin-top:12px;font-size:13px;color:var(--muted);line-height:1.5}.message.good{color:#18794e}.message.bad{color:#b42318}.history{font-size:13px;color:var(--muted);line-height:1.7}.history strong{color:var(--ink)}.modal-backdrop{position:fixed;inset:0;background:#17243d70;display:none;place-items:center;padding:20px;z-index:10}.modal-backdrop.show{display:grid}.modal{background:#fff;border-radius:22px;padding:28px;max-width:390px;width:100%;text-align:center;box-shadow:0 25px 80px #0003}.modal .medal{font-size:46px}.modal h2{margin:8px 0}.modal p{color:var(--muted);line-height:1.6}.modal-actions{display:flex;gap:9px}.modal-actions button{flex:1}.footer{text-align:center;color:#98a2b3;font-size:12px;margin-top:22px}
+@media(max-width:800px){.app{padding:18px 12px 28px}.layout{grid-template-columns:1fr;gap:14px}.board-panel{padding:13px}.panel{border-radius:18px;padding:16px}.board{max-width:610px;margin:auto}.cell{font-size:clamp(17px,5vw,29px)}.cell .notes{font-size:clamp(8px,2vw,12px)}.top{align-items:flex-start}.brand h1{font-size:21px}.top-actions button{padding:8px 10px;font-size:12px}.side{grid-template-columns:1fr}.stat strong{font-size:16px}}@media(min-width:801px){.side .panel:first-child{position:relative}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="logo">▦</div><div><div class="eyebrow">PUZZLE · THINK · WIN</div><h1>Sudoku Quest</h1></div></div>
+    <div class="top-actions"><button id="newGameBtn">＋ 新遊戲</button><button id="restartBtn">↻ 重來</button></div>
+  </header>
+  <main class="layout">
+    <section class="panel board-panel">
+      <div class="game-head"><h2>數獨挑戰</h2><span class="pill" id="difficultyPill">第 1 關 · 新手</span></div>
+      <div class="stats">
+        <div class="stat"><span>遊戲時間</span><strong id="timer">00:00</strong></div>
+        <div class="stat"><span>錯誤次數</span><strong id="mistakes">0 / 3</strong></div>
+        <div class="stat"><span>已填格數</span><strong id="filled">0 / 81</strong></div>
+      </div>
+      <div class="board" id="board" role="grid" aria-label="數獨棋盤"></div>
+      <div class="board-foot"><span>點選格子，再選擇數字</span><span id="saveStatus">進度自動儲存</span></div>
+      <div class="message" id="message" aria-live="polite">選擇一個空格，開始你的數獨挑戰。</div>
+    </section>
+    <aside class="side">
+      <section class="panel">
+        <h3 class="section-title">輸入數字 <small>1 — 9</small></h3>
+        <div class="number-pad" id="numberPad"></div>
+        <div class="tools">
+          <button id="hintBtn" class="soft">✦ 提示 <span id="hintCount">(3)</span></button>
+          <button id="eraseBtn">⌫ 橡皮擦</button>
+          <button id="notesBtn">✎ 筆記模式：關</button>
+          <button id="checkBtn">✓ 檢查棋盤</button>
+        </div>
+        <button id="undoBtn" class="wide">↶ 撤銷上一步</button>
+      </section>
+      <section class="panel">
+        <h3 class="section-title">闖關進度 <small id="levelCount">1 / 4</small></h3>
+        <div class="progress" id="progress"></div>
+        <div class="progress-label"><span id="levelName">新手 Easy</span><span id="winsLabel">通關 0 次</span></div>
+        <p class="history" id="recordText">完成關卡解鎖下一個難度。提示與錯誤會影響本局評價。</p>
+        <button class="wide" id="resetProgressBtn">重設闖關紀錄</button>
+      </section>
+    </aside>
+  </main>
+  <div class="footer">Sudoku Quest · 專注思考，享受每一次解題。</div>
+</div>
+<div class="modal-backdrop" id="winModal" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+  <div class="modal"><div class="medal">🏆</div><h2 id="winTitle">挑戰完成！</h2><p id="winText">太棒了，你成功完成這局數獨。</p><div class="modal-actions"><button id="reviewBtn">留在棋盤</button><button class="primary" id="nextBtn">下一關 →</button></div></div>
+</div>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const DIFFS = [
+ {name:'新手',en:'Easy', clues:40, hints:3},
+ {name:'中等',en:'Medium',clues:34,hints:3},
+ {name:'困難',en:'Hard',clues:29,hints:2},
+ {name:'專家',en:'Expert',clues:25,hints:1}
+];
+const STORAGE='sudokuQuest.v1';
+let state=null, selected=-1, notesMode=false, elapsed=0, tickHandle=null, undoStack=[], completed=false;
+const empty=()=>Array(81).fill(0);
+const rowOf=i=>Math.floor(i/9), colOf=i=>i%9;
+function peers(i){let out=[];const r=rowOf(i),c=colOf(i);for(let j=0;j<81;j++)if(j!==i&&(rowOf(j)===r||colOf(j)===c||(Math.floor(rowOf(j)/3)===Math.floor(r/3)&&Math.floor(colOf(j)/3)===Math.floor(c/3))))out.push(j);return out}
+function valid(board,i,n){for(const j of peers(i))if(board[j]===n)return false;return true}
+function candidates(board,i){if(board[i])return [];let a=[];for(let n=1;n<=9;n++)if(valid(board,i,n))a.push(n);return a}
+function shuffle(a){for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function fillSolution(board){
+ let best=-1, opts=null;
+ for(let i=0;i<81;i++)if(!board[i]){const c=candidates(board,i);if(!opts||c.length<opts.length){best=i;opts=c;if(c.length<=1)break}}
+ if(best<0)return true;if(!opts.length)return false;
+ for(const n of shuffle(opts)){board[best]=n;if(fillSolution(board))return true;board[best]=0}
+ return false;
+}
+function countSolutions(board,limit=2){
+ let best=-1,opts=null;
+ for(let i=0;i<81;i++)if(!board[i]){const c=candidates(board,i);if(!opts||c.length<opts.length){best=i;opts=c;if(c.length<=1)break}}
+ if(best<0)return 1;if(!opts.length)return 0;
+ let count=0;for(const n of opts){board[best]=n;count+=countSolutions(board,limit-count);board[best]=0;if(count>=limit)return count}return count;
+}
+function generatePuzzle(level){
+ const solution=empty();fillSolution(solution);
+ const puzzle=solution.slice(), target=DIFFS[level].clues;
+ const order=shuffle([...Array(81).keys()]);
+ let removed=0;
+ for(const i of order){if(81-removed<=target)break;const old=puzzle[i];puzzle[i]=0;
+   const test=puzzle.slice();if(countSolutions(test,2)!==1)puzzle[i]=old;else removed++;
+ }
+ return {puzzle,solution};
+}
+function freshGame(level=0){
+ const {puzzle,solution}=generatePuzzle(level);
+ state={level,puzzle,solution,values:puzzle.slice(),notes:Array.from({length:81},()=>[]),mistakes:0,hints:DIFFS[level].hints,wins:loadStats().wins||0,unlocked:loadStats().unlocked||0,best:loadStats().best||{},startedAt:Date.now(),elapsed:0};
+ selected=puzzle.findIndex(v=>!v);if(selected<0)selected=0;elapsed=0;undoStack=[];completed=false;notesMode=false;
+ save();render();startTimer();say('新題目已準備好，祝你解題順利！');
+}
+function loadStats(){try{return JSON.parse(localStorage.getItem(STORAGE)||'{}')}catch{return {}}}
+function save(){if(!state)return;try{const stats=loadStats();localStorage.setItem(STORAGE,JSON.stringify({...stats,wins:state.wins||0,unlocked:state.unlocked||0,best:state.best||{},game:{...state,elapsed,selected,notesMode,undoStack:undoStack.slice(-20),completed}}));$('saveStatus').textContent='已自動儲存'}catch{}}
+function load(){
+ const d=loadStats(),s=d.game;
+ if(!s||!Array.isArray(s.puzzle)||s.puzzle.length!==81){freshGame(0);return}
+ state=s;elapsed=s.elapsed||0;selected=Number.isInteger(s.selected)?s.selected:0;notesMode=!!s.notesMode;undoStack=s.undoStack||[];completed=!!s.completed;render();if(!completed)startTimer();
+}
+function render(){
+ if(!state)return;
+ $('difficultyPill').textContent=`第 ${state.level+1} 關 · ${DIFFS[state.level].name}`;
+ $('timer').textContent=formatTime(elapsed);$('mistakes').textContent=`${state.mistakes} / 3`;
+ const filled=state.values.filter(Boolean).length;$('filled').textContent=`${filled} / 81`;
+ $('hintCount').textContent=`(${state.hints})`;
+ $('notesBtn').textContent=`✎ 筆記模式：${notesMode?'開':'關'}`;$('notesBtn').classList.toggle('active',notesMode);
+ $('levelCount').textContent=`${Math.min(state.level+1,4)} / 4`;
+ $('levelName').textContent=`${DIFFS[state.level].name} ${DIFFS[state.level].en}`;
+ $('winsLabel').textContent=`通關 ${state.wins||0} 次`;
+ const unlocked=state.unlocked||0;$('progress').innerHTML=DIFFS.map((d,i)=>`<div class="step ${i<unlocked?'done':i===state.level?'current':''}" title="${d.name}"></div>`).join('');
+ const best=state.best||{};const b=best[state.level];
+ $('recordText').innerHTML=`${state.level===3?'已到達最高難度！完成後可繼續挑戰專家題目。':'完成本關即可解鎖下一個難度。'}<br>本難度最佳時間：<strong>${b?formatTime(b):'尚無紀錄'}</strong>`;
+ const board=$('board');board.innerHTML='';
+ for(let i=0;i<81;i++){
+   const v=state.values[i],given=!!state.puzzle[i],btn=document.createElement('button');btn.type='button';btn.className='cell';btn.setAttribute('role','gridcell');btn.setAttribute('aria-label',`第 ${rowOf(i)+1} 行第 ${colOf(i)+1} 列${v?`，${v}`:'，空格'}`);
+   if(given)btn.classList.add('given');
+   if(selected===i)btn.classList.add('selected');
+   if(selected>=0&&(rowOf(i)===rowOf(selected)||colOf(i)===colOf(selected)||(Math.floor(rowOf(i)/3)===Math.floor(rowOf(selected)/3)&&Math.floor(colOf(i)/3)===Math.floor(colOf(selected)/3))))btn.classList.add('related');
+   if(v&&selected>=0&&v===state.values[selected])btn.classList.add('same');
+   if(v&&!valid(state.values,i,v))btn.classList.add('conflict');
+   if(v&&state.puzzle[i]===0&&v!==state.solution[i])btn.classList.add('wrong');
+   if(v){const span=document.createElement('span');span.className='value';span.textContent=v;btn.append(span)}
+   else if(state.notes[i]?.length){const ns=document.createElement('span');ns.className='notes';for(let n=1;n<=9;n++){const x=document.createElement('span');x.textContent=state.notes[i].includes(n)?n:'';ns.append(x)}btn.append(ns)}
+   btn.addEventListener('click',()=>{selected=i;render();});board.append(btn);
+ }
+ const pad=$('numberPad');pad.innerHTML='';for(let n=1;n<=9;n++){const b=document.createElement('button');b.textContent=n;b.addEventListener('click',()=>enter(n));pad.append(b)}
+ $('undoBtn').disabled=!undoStack.length;
+}
+function formatTime(s){s=Math.max(0,Math.floor(s));return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`}
+function startTimer(){stopTimer();if(completed)return;tickHandle=setInterval(()=>{elapsed++;$('timer').textContent=formatTime(elapsed);if(elapsed%5===0)save()},1000)}
+function stopTimer(){if(tickHandle){clearInterval(tickHandle);tickHandle=null}}
+function say(msg,type=''){const el=$('message');el.textContent=msg;el.className='message '+type}
+function snapshot(){undoStack.push({values:state.values.slice(),notes:state.notes.map(a=>a.slice()),mistakes:state.mistakes,hints:state.hints});if(undoStack.length>30)undoStack.shift()}
+function enter(n){
+ if(completed||selected<0)return;
+ if(state.puzzle[selected]){say('這是題目給定的數字，不能修改。');return}
+ if(notesMode&&!state.values[selected]){
+   snapshot();const a=state.notes[selected];state.notes[selected]=a.includes(n)?a.filter(x=>x!==n):[...a,n].sort();save();render();return;
+ }
+ snapshot();state.notes[selected]=[];
+ if(!valid(state.values,selected,n)){state.values[selected]=n;state.mistakes++;say('這個數字與同一列、行或宮格重複了。','bad')}
+ else if(n!==state.solution[selected]){state.values[selected]=n;state.mistakes++;say('這個位置的數字不正確，再試試其他可能。','bad')}
+ else {state.values[selected]=n;removeNote(n);say('正確！繼續保持。','good')}
+ if(state.mistakes>=3)say('已累積 3 次錯誤，仍可繼續解題；試著使用提示。','bad');
+ checkWin();save();render();
+}
+function removeNote(n){for(const a of state.notes){const ix=a.indexOf(n);if(ix>=0)a.splice(ix,1)}}
+function erase(){if(completed||selected<0)return;if(state.puzzle[selected]){say('題目給定的數字不能清除。');return}snapshot();state.values[selected]=0;state.notes[selected]=[];save();render();say('已清除選取格子的內容。')}
+function hint(){
+ if(completed||selected<0)return;
+ if(state.puzzle[selected]){say('先選取一個空格，才能使用提示。');return}
+ if(state.values[selected]===state.solution[selected]){say('這格已經正確，不需要提示。');return}
+ if(state.hints<=0){say('本局提示次數已用完。','bad');return}
+ snapshot();state.values[selected]=state.solution[selected];state.notes[selected]=[];state.hints--;removeNote(state.values[selected]);say('提示已填入正確數字！','good');checkWin();save();render()
+}
+function checkBoard(){
+ let conflicts=0,wrong=0,emptyCount=0;
+ for(let i=0;i<81;i++){if(!state.values[i])emptyCount++;else if(!valid(state.values,i,state.values[i]))conflicts++;else if(state.values[i]!==state.solution[i])wrong++}
+ if(emptyCount===0&&wrong===0&&conflicts===0){checkWin();return}
+ say(`棋盤檢查：還有 ${emptyCount} 格未填，${wrong} 個數字不正確，${conflicts} 個位置有重複。`,wrong||conflicts?'bad':'');
+}
+function checkWin(){
+ if(state.values.every((v,i)=>v===state.solution[i])){
+   completed=true;stopTimer();state.wins=(state.wins||0)+1;state.unlocked=Math.max(state.unlocked||0,Math.min(3,state.level+1));
+   state.best=state.best||{};if(!state.best[state.level]||elapsed<state.best[state.level])state.best[state.level]=elapsed;
+   save();render();$('winText').textContent=`你用 ${formatTime(elapsed)} 完成 ${DIFFS[state.level].name} 難度，錯誤 ${state.mistakes} 次、使用提示 ${DIFFS[state.level].hints-state.hints} 次。`;
+   $('nextBtn').textContent=state.level<3?'下一關 →':'再挑戰一局 →';$('winModal').classList.add('show');
+   say('恭喜通關！你的進度已儲存。','good');
+ }
+}
+function restart(){if(!state)return;if(!confirm('要重新開始這一局嗎？目前的填寫進度會被清除。'))return;const level=state.level;freshGame(level)}
+function nextLevel(){const level=state.level<3?state.level+1:3;$('winModal').classList.remove('show');freshGame(level)}
+function undo(){if(!undoStack.length||completed)return;const s=undoStack.pop();state.values=s.values;state.notes=s.notes;state.mistakes=s.mistakes;state.hints=s.hints;save();render();say('已撤銷上一步。')}
+function newGame(){if(!completed&&!confirm('要開始新的一局嗎？目前未完成的進度會被覆蓋。'))return;freshGame(state?.level||0)}
+function resetProgress(){if(!confirm('確定重設所有闖關紀錄與最佳時間嗎？'))return;localStorage.removeItem(STORAGE);freshGame(0);say('闖關紀錄已重設。')}
+document.addEventListener('keydown',e=>{
+ if(e.key>='1'&&e.key<='9'){enter(Number(e.key));return}
+ if(e.key==='Backspace'||e.key==='Delete'){erase();return}
+ if(e.key.toLowerCase()==='n'){notesMode=!notesMode;render();return}
+ if(e.key.startsWith('Arrow')&&selected>=0){e.preventDefault();let r=rowOf(selected),c=colOf(selected);if(e.key==='ArrowUp')r=(r+8)%9;if(e.key==='ArrowDown')r=(r+1)%9;if(e.key==='ArrowLeft')c=(c+8)%9;if(e.key==='ArrowRight')c=(c+1)%9;selected=r*9+c;render()}
+});
+$('hintBtn').addEventListener('click',hint);$('eraseBtn').addEventListener('click',erase);$('notesBtn').addEventListener('click',()=>{notesMode=!notesMode;render();say(notesMode?'筆記模式已開啟，選擇數字加入候選標記。':'筆記模式已關閉。')});$('checkBtn').addEventListener('click',checkBoard);$('undoBtn').addEventListener('click',undo);$('restartBtn').addEventListener('click',restart);$('newGameBtn').addEventListener('click',newGame);$('resetProgressBtn').addEventListener('click',resetProgress);$('reviewBtn').addEventListener('click',()=>$('winModal').classList.remove('show'));$('nextBtn').addEventListener('click',nextLevel);
+load();
+})();
+</script>
+</body>
+</html>
